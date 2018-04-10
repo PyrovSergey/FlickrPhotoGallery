@@ -1,11 +1,11 @@
 package com.bignerdranch.android.photogallery;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -25,7 +25,7 @@ import java.util.List;
 
 public class PhotoGalleryFragment extends VisibleFragment {
 
-  //581
+  // 581
 
   private static final String TAG = "PhotoGalleryFragment";
 
@@ -123,16 +123,28 @@ public class PhotoGalleryFragment extends VisibleFragment {
     }
   }
 
-  private class PhotoHolder extends RecyclerView.ViewHolder {
+  private class PhotoHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private ImageView imageView;
+    private GalleryItem galleryItem;
 
     public PhotoHolder(View itemView) {
       super(itemView);
       imageView = (ImageView) itemView.findViewById(R.id.item_image_view);
+      itemView.setOnClickListener(this);
     }
 
     public void bindDrawable(Drawable drawable) {
       imageView.setImageDrawable(drawable);
+    }
+
+    public void bindGalleryItem(GalleryItem galleryItem) {
+      this.galleryItem = galleryItem;
+    }
+
+    @Override
+    public void onClick(View v) {
+      Intent i = new Intent(Intent.ACTION_VIEW, galleryItem.getPhotoPageUri());
+      startActivity(i);
     }
   }
 
@@ -154,6 +166,7 @@ public class PhotoGalleryFragment extends VisibleFragment {
     @Override
     public void onBindViewHolder(@NonNull PhotoHolder holder, int position) {
       GalleryItem galleryItem = galleryItems.get(position);
+      holder.bindGalleryItem(galleryItem);
       // Drawable placeHolder = getResources().getDrawable(R.drawable.bill_up_close);
       // holder.bindDrawable(placeHolder);
       // page 530
