@@ -143,7 +143,7 @@ public class PhotoGalleryFragment extends VisibleFragment {
 
     @Override
     public void onClick(View v) {
-      Intent i = new Intent(Intent.ACTION_VIEW, galleryItem.getPhotoPageUri());
+      Intent i = PhotoPageActivity.newIntent(getActivity(), galleryItem.getPhotoPageUri());
       startActivity(i);
     }
   }
